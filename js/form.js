@@ -1,255 +1,258 @@
-// form.js - VERSIÓN ULTRA SIMPLE (SOLO validación básica)
+// form.js - VERSIÓN QUE CAPTURA VALORES ANTES DE BORRARSE
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 form.js cargado - VERSIÓN SIMPLE');
+    console.log('✅ form.js cargado - Captura temprana activada');
     
     const contactForm = document.getElementById('contact-form');
     const submitBtn = document.getElementById('submit-btn');
     
-    if (!contactForm) {
-        console.error('❌ No se encontró el formulario');
-        return;
-    }
+    if (!contactForm) return;
     
-    // DESACTIVAR COMPLETAMENTE validación HTML
+    // 1. DESACTIVAR CUALQUIER comportamiento automático
     contactForm.setAttribute('novalidate', 'novalidate');
-    contactForm.noValidate = true;
     
-    console.log('✅ Validación HTML desactivada');
+    // 2. Guardar referencias a los inputs
+    const inputs = {
+        name: document.getElementById('name'),
+        email: document.getElementById('email'),
+        subject: document.getElementById('subject'),
+        message: document.getElementById('message')
+    };
     
-    // Obtener inputs
-    const nameInput = document.getElementById('name');
-    const emailInput = document.getElementById('email');
-    const subjectInput = document.getElementById('subject');
-    const messageInput = document.getElementById('message');
+    // 3. Variable para guardar valores ANTES de validar
+    let capturedValues = {};
     
-    // Verificar inputs
-    if (!nameInput || !emailInput || !subjectInput || !messageInput) {
-        console.error('❌ Faltan inputs');
-        return;
-    }
-    
-    console.log('✅ Todos los inputs encontrados');
-    
-    // FUNCIÓN: Validar nombre (MUY FLEXIBLE)
-    function validateName() {
-        const value = nameInput.value.trim();
-        const errorDiv = document.getElementById('name-error');
+    // 4. INTERCEPTAR el clic del botón ANTES que el submit
+    submitBtn.addEventListener('click', function(e) {
+        console.log('🟡 CLIC EN BOTÓN - Capturando valores...');
         
-        console.log(`🔍 Validando nombre: "${value}" (${value.length} caracteres)`);
+        // Capturar valores INMEDIATAMENTE
+        capturedValues = {
+            name: inputs.name ? inputs.name.value : '',
+            email: inputs.email ? inputs.email.value : '',
+            subject: inputs.subject ? inputs.subject.value : '',
+            message: inputs.message ? inputs.message.value : ''
+        };
         
-        // Limpiar error primero
-        if (errorDiv) {
-            errorDiv.classList.add('hidden');
-            nameInput.classList.remove('border-red-500');
-            nameInput.classList.add('border-gray-300', 'dark:border-gray-700');
+        console.log('📝 Valores capturados:', capturedValues);
+        
+        // NO prevenir el comportamiento aquí todavía
+        // Solo capturamos los valores
+    });
+    
+    // 5. Función para validar usando valores CAPTURADOS
+    function validateWithCapturedValues() {
+        console.log('🔍 Validando con valores capturados:', capturedValues);
+        
+        let allValid = true;
+        
+        // Validar NOMBRE
+        if (!capturedValues.name || capturedValues.name.trim().length === 0) {
+            console.log('❌ Nombre vacío (capturado)');
+            showError(inputs.name, 'Este campo es requerido');
+            allValid = false;
+        } else if (capturedValues.name.trim().length < 2) {
+            console.log('❌ Nombre muy corto:', capturedValues.name);
+            showError(inputs.name, 'Mínimo 2 caracteres');
+            allValid = false;
+        } else {
+            clearError(inputs.name);
+            console.log('✅ Nombre válido:', capturedValues.name);
         }
         
-        // Validación MUY simple
-        if (!value) {
-            console.log('❌ Nombre vacío');
-            if (errorDiv) {
-                errorDiv.textContent = 'Por favor, escribe tu nombre';
-                errorDiv.classList.remove('hidden');
-                nameInput.classList.add('border-red-500');
-            }
-            return false;
+        // Validar EMAIL
+        if (!capturedValues.email || capturedValues.email.trim().length === 0) {
+            showError(inputs.email, 'Este campo es requerido');
+            allValid = false;
+        } else if (!isValidEmail(capturedValues.email)) {
+            showError(inputs.email, 'Por favor ingresa un email válido');
+            allValid = false;
+        } else {
+            clearError(inputs.email);
         }
         
-        // ACEPTA CUALQUIER COSA: 1 carácter, 100 caracteres, números, símbolos
-        if (value.length >= 1) { // ¡Incluso 1 carácter es válido!
-            console.log('✅ Nombre válido:', value);
-            return true;
+        // Validar ASUNTO
+        if (!capturedValues.subject || capturedValues.subject.trim().length === 0) {
+            showError(inputs.subject, 'Este campo es requerido');
+            allValid = false;
+        } else if (capturedValues.subject.trim().length < 5) {
+            showError(inputs.subject, 'Mínimo 5 caracteres');
+            allValid = false;
+        } else {
+            clearError(inputs.subject);
         }
         
-        return false;
-    }
-    
-    // FUNCIÓN: Validar email
-    function validateEmail() {
-        const value = emailInput.value.trim();
-        const errorDiv = document.getElementById('email-error');
-        
-        // Limpiar error
-        if (errorDiv) errorDiv.classList.add('hidden');
-        emailInput.classList.remove('border-red-500');
-        
-        if (!value) {
-            if (errorDiv) {
-                errorDiv.textContent = 'Por favor, escribe tu email';
-                errorDiv.classList.remove('hidden');
-                emailInput.classList.add('border-red-500');
-            }
-            return false;
+        // Validar MENSAJE
+        if (!capturedValues.message || capturedValues.message.trim().length === 0) {
+            showError(inputs.message, 'Este campo es requerido');
+            allValid = false;
+        } else if (capturedValues.message.trim().length < 10) {
+            showError(inputs.message, 'Mínimo 10 caracteres');
+            allValid = false;
+        } else {
+            clearError(inputs.message);
         }
         
-        // Validación simple de email
-        if (!value.includes('@') || !value.includes('.')) {
-            if (errorDiv) {
-                errorDiv.textContent = 'Por favor, escribe un email válido';
-                errorDiv.classList.remove('hidden');
-                emailInput.classList.add('border-red-500');
-            }
-            return false;
-        }
-        
-        return true;
-    }
-    
-    // FUNCIÓN: Validar asunto
-    function validateSubject() {
-        const value = subjectInput.value.trim();
-        const errorDiv = document.getElementById('subject-error');
-        
-        // Limpiar error
-        if (errorDiv) errorDiv.classList.add('hidden');
-        subjectInput.classList.remove('border-red-500');
-        
-        if (!value) {
-            if (errorDiv) {
-                errorDiv.textContent = 'Por favor, escribe un asunto';
-                errorDiv.classList.remove('hidden');
-                subjectInput.classList.add('border-red-500');
-            }
-            return false;
-        }
-        
-        return true;
-    }
-    
-    // FUNCIÓN: Validar mensaje
-    function validateMessage() {
-        const value = messageInput.value.trim();
-        const errorDiv = document.getElementById('message-error');
-        
-        // Limpiar error
-        if (errorDiv) errorDiv.classList.add('hidden');
-        messageInput.classList.remove('border-red-500');
-        
-        if (!value) {
-            if (errorDiv) {
-                errorDiv.textContent = 'Por favor, escribe tu mensaje';
-                errorDiv.classList.remove('hidden');
-                messageInput.classList.add('border-red-500');
-            }
-            return false;
-        }
-        
-        return true;
-    }
-    
-    // FUNCIÓN: Validar TODO el formulario
-    function validateAll() {
-        console.log('=== VALIDANDO FORMULARIO ===');
-        
-        const nameValid = validateName();
-        const emailValid = validateEmail();
-        const subjectValid = validateSubject();
-        const messageValid = validateMessage();
-        
-        const allValid = nameValid && emailValid && subjectValid && messageValid;
-        
-        console.log('Resultados:', {
-            nombre: nameValid ? '✅' : '❌',
-            email: emailValid ? '✅' : '❌',
-            asunto: subjectValid ? '✅' : '❌',
-            mensaje: messageValid ? '✅' : '❌',
-            todo: allValid ? '✅ VÁLIDO' : '❌ INCOMPLETO'
-        });
-        
+        console.log('📊 Validación completa:', allValid ? '✅ VÁLIDO' : '❌ INVALIDO');
         return allValid;
     }
     
-    // MANEJAR ENVÍO DEL FORMULARIO
-    contactForm.addEventListener('submit', function(event) {
-        console.log('🟡 Botón enviar presionado');
+    // 6. Funciones auxiliares
+    function showError(input, message) {
+        if (!input) return;
         
-        // 1. Prevenir envío automático
+        const errorDiv = document.getElementById(`${input.id}-error`);
+        if (errorDiv) {
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+            errorDiv.style.display = 'block';
+        }
+        
+        input.classList.add('border-red-500', 'focus:ring-red-500');
+        input.classList.remove('border-gray-300', 'dark:border-gray-700', 'focus:ring-blue-500');
+    }
+    
+    function clearError(input) {
+        if (!input) return;
+        
+        const errorDiv = document.getElementById(`${input.id}-error`);
+        if (errorDiv) {
+            errorDiv.classList.add('hidden');
+            errorDiv.style.display = 'none';
+        }
+        
+        input.classList.remove('border-red-500', 'focus:ring-red-500');
+        input.classList.add('border-gray-300', 'dark:border-gray-700', 'focus:ring-blue-500');
+    }
+    
+    function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+    
+    // 7. MANEJADOR PRINCIPAL del formulario
+    contactForm.addEventListener('submit', function(event) {
+        console.log('🟡 EVENTO SUBMIT - Usando valores capturados');
+        
+        // PREVENIR SIEMPRE el envío automático
         event.preventDefault();
         event.stopPropagation();
         
-        console.log('🟡 Validando formulario...');
-        
-        // 2. Validar
-        const isValid = validateAll();
+        // Validar usando los valores CAPTURADOS (no los actuales)
+        const isValid = validateWithCapturedValues();
         
         if (!isValid) {
-            console.log('🔴 Formulario inválido - NO enviar');
+            console.log('🔴 NO enviar - Errores encontrados');
+            
             // Mostrar mensaje general
-            const formStatus = document.getElementById('form-status');
-            if (formStatus) {
-                formStatus.textContent = 'Por favor, completa los campos marcados';
-                formStatus.className = 'p-4 rounded-lg mt-4 bg-red-100 text-red-700 border border-red-300';
-                formStatus.classList.remove('hidden');
-            }
+            showFormStatus('Por favor, corrige los errores en el formulario', 'error');
             return;
         }
         
-        console.log('🟢 Formulario VÁLIDO - Enviando...');
+        console.log('🟢 TODO VÁLIDO - Enviando formulario...');
         
-        // 3. Deshabilitar botón y mostrar carga
+        // Preparar envío
         submitBtn.disabled = true;
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Enviando...';
         
-        // Mostrar mensaje de envío
-        const formStatus = document.getElementById('form-status');
-        if (formStatus) {
-            formStatus.textContent = 'Enviando tu mensaje...';
-            formStatus.className = 'p-4 rounded-lg mt-4 bg-blue-100 text-blue-700 border border-blue-300';
-            formStatus.classList.remove('hidden');
-        }
+        showFormStatus('Enviando tu mensaje...', 'info');
         
-        // 4. Crear datos para enviar
+        // Crear FormData con los valores ORIGINALES del formulario
+        // (restaurar valores si se borraron)
+        restoreFormValues();
+        
         const formData = new FormData(contactForm);
         
-        // 5. Enviar usando FormSubmit (Fetch API)
+        // Enviar con Fetch
         fetch(contactForm.action, {
             method: 'POST',
             body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
+            headers: { 'Accept': 'application/json' }
         })
         .then(response => {
-            console.log('📨 Respuesta del servidor:', response.status);
-            
             if (response.ok) {
-                // ÉXITO: Redirigir a página de gracias
-                console.log('✅ Mensaje enviado - Redirigiendo...');
+                // Éxito - redirigir
                 window.location.href = 'https://miltongtzz.github.io/portafolio/gracias.html';
             } else {
-                // ERROR
-                throw new Error('Error en el servidor: ' + response.status);
+                throw new Error('Error ' + response.status);
             }
         })
         .catch(error => {
-            console.error('❌ Error al enviar:', error);
-            
-            // Mostrar error
-            if (formStatus) {
-                formStatus.textContent = 'Error al enviar. Intenta nuevamente.';
-                formStatus.className = 'p-4 rounded-lg mt-4 bg-red-100 text-red-700 border border-red-300';
-            }
+            console.error('❌ Error:', error);
+            showFormStatus('Error al enviar. Intenta nuevamente.', 'error');
             
             // Restaurar botón
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
             
-            // Intentar envío tradicional después de 2 segundos
+            // Fallback tradicional
             setTimeout(() => {
-                console.log('🔄 Intentando envío tradicional...');
-                contactForm.removeEventListener('submit', arguments.callee);
+                restoreFormValues();
+                const handler = arguments.callee;
+                contactForm.removeEventListener('submit', handler);
                 contactForm.submit();
             }, 2000);
         });
     });
     
-    console.log('✅ Formulario configurado correctamente');
+    // 8. Función para RESTAURAR valores si se borraron
+    function restoreFormValues() {
+        console.log('🔄 Restaurando valores en el formulario...');
+        
+        if (inputs.name && capturedValues.name !== undefined) {
+            inputs.name.value = capturedValues.name;
+        }
+        if (inputs.email && capturedValues.email !== undefined) {
+            inputs.email.value = capturedValues.email;
+        }
+        if (inputs.subject && capturedValues.subject !== undefined) {
+            inputs.subject.value = capturedValues.subject;
+        }
+        if (inputs.message && capturedValues.message !== undefined) {
+            inputs.message.value = capturedValues.message;
+        }
+    }
     
-    // DEBUG: Función para probar
-    window.probarNombre = function(nombre) {
-        nameInput.value = nombre || 'Test';
-        console.log('🔍 Probando con nombre:', nameInput.value);
-        validateName();
+    // 9. Función para mostrar estado
+    function showFormStatus(message, type) {
+        const formStatus = document.getElementById('form-status');
+        if (!formStatus) return;
+        
+        formStatus.textContent = message;
+        formStatus.className = 'p-4 rounded-lg mt-4';
+        
+        if (type === 'error') {
+            formStatus.classList.add('bg-red-100', 'text-red-700', 'border', 'border-red-300');
+        } else if (type === 'info') {
+            formStatus.classList.add('bg-blue-100', 'text-blue-700', 'border', 'border-blue-300');
+        } else if (type === 'success') {
+            formStatus.classList.add('bg-green-100', 'text-green-700', 'border', 'border-green-300');
+        }
+        
+        formStatus.classList.remove('hidden');
+    }
+    
+    // 10. Limpiar errores al escribir
+    Object.values(inputs).forEach(input => {
+        if (input) {
+            input.addEventListener('input', function() {
+                clearError(this);
+                // Actualizar valores capturados también
+                capturedValues[this.id] = this.value;
+            });
+        }
+    });
+    
+    console.log('✅ Sistema de captura temprana configurado');
+    
+    // 11. DEBUG
+    window.verValores = function() {
+        console.log('=== VALORES ACTUALES ===');
+        console.log('Capturados:', capturedValues);
+        console.log('En inputs:');
+        Object.entries(inputs).forEach(([key, input]) => {
+            if (input) {
+                console.log(`${key}: "${input.value}" (capturado: "${capturedValues[key]}")`);
+            }
+        });
     };
 });
