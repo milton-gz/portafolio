@@ -764,6 +764,74 @@
     </div>
 </section>
 
+    <style>
+    /* Estilos para la sección de contacto */
+    .social-btn {
+        @apply w-12 h-12 rounded-full flex items-center justify-center 
+               transition-all duration-300 hover:scale-110 hover:shadow-lg;
+    }
+    
+    /* Animaciones para campos del formulario */
+    #contact-form input:focus, 
+    #contact-form textarea:focus {
+        @apply ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
+    }
+    
+    /* Estilos para errores de validación */
+    .error-field {
+        @apply border-red-500 focus:ring-red-500 focus:border-transparent;
+    }
+    
+    /* Animación para el botón de envío */
+    #submit-btn {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    #submit-btn::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        border-radius: 100%;
+        transform: scale(1, 1) translate(-50%);
+        transform-origin: 50% 50%;
+    }
+    
+    #submit-btn:focus:not(:active)::after {
+        animation: ripple 1s ease-out;
+    }
+    
+    @keyframes ripple {
+        0% {
+            transform: scale(0, 0);
+            opacity: 0.5;
+        }
+        100% {
+            transform: scale(20, 20);
+            opacity: 0;
+        }
+    }
+    
+    /* Efecto de carga */
+    .btn-loading {
+        @apply cursor-not-allowed;
+    }
+    
+    .btn-loading i {
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+</style>
+
     <!-- Footer -->
     <footer class="bg-card py-8 border-t border-border transition-all duration-300">
         <div class="container mx-auto px-4 sm:px-6 text-center">
