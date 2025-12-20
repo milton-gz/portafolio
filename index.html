@@ -708,12 +708,13 @@
                                     Nombre Completo *
                                 </label>
                                 <input type="text" id="name" name="name" required 
-                                       class="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg 
-                                              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                                              bg-white dark:bg-gray-800 transition duration-300
-                                              placeholder:text-gray-400 dark:placeholder:text-gray-500"
-                                       placeholder="Ej: Juan Pérez" 
-                                       minlength="2">
+                                      class="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg 
+                                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                                      bg-white dark:bg-gray-800 transition duration-300
+                                      placeholder:text-gray-400 dark:placeholder:text-gray-500"
+                                      placeholder="Ej: Juan"
+                                      pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{2,50}"
+                                      title="Mínimo 2 letras, máximo 50">
                                 <div id="name-error" class="mt-2 text-sm text-red-600 dark:text-red-400 hidden"></div>
                             </div>
                             
