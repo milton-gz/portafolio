@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 // Redirigir a página de gracias
                 console.log('✅ Éxito - Redirigiendo...');
-                window.location.href = 'https://miltongtzz.github.io/portafolio/gracias.html';
+                window.location.href = 'https://milton-gz.github.io/portafolio/gracias.html';
             } else {
                 throw new Error('Error ' + response.status);
             }
