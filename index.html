@@ -11,6 +11,28 @@
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/components.css">
+
+    <style>
+    /* ESTO VA DENTRO DE <head> O AL INICIO DE <body> */
+    #name-error, #email-error, #subject-error, #message-error,
+    .error-message {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Forzar que inputs no tengan borde rojo inicial */
+    #name, #email, #subject, #message {
+        border-color: #d1d5db !important; /* gray-300 */
+    }
+    
+    .dark #name, .dark #email, .dark #subject, .dark #message {
+        border-color: #374151 !important; /* gray-700 */
+    }
+</style>
 </head>
 <body class="bg-bg text-text">
     <!-- Header/Navigation -->
