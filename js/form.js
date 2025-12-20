@@ -1,4 +1,4 @@
-// form.js - COMPLETO para FormSubmit
+// form.js - VERSIÓN CORREGIDA (sin validación inicial)
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contact-form');
     const formStatus = document.getElementById('form-status');
@@ -6,34 +6,73 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (!contactForm) return;
     
-    // Validación en tiempo real
+    // Objeto para rastrear qué campos han sido interactuados
+    const interactedFields = new Set();
+    
+    // Obtener todos los campos requeridos
     const inputs = contactForm.querySelectorAll('input[required], textarea[required]');
+    
+    // Configurar eventos para cada campo
     inputs.forEach(input => {
-        input.addEventListener('blur', validateField);
-        input.addEventListener('input', clearFieldError);
+        // Marcar cuando el usuario interactúa por primera vez
+        input.addEventListener('focus', function() {
+            interactedFields.add(this.id);
+            // Ocultar placeholder temporalmente
+            this.dataset.placeholder = this.placeholder;
+            this.placeholder = '';
+        });
+        
+        // Restaurar placeholder si el campo queda vacío
+        input.addEventListener('blur', function() {
+            if (!this.value.trim()) {
+                this.placeholder = this.dataset.placeholder || '';
+            }
+        });
+        
+        // Validar solo cuando el usuario sale del campo Y ha interactuado antes
+        input.addEventListener('blur', function() {
+            if (interactedFields.has(this.id)) {
+                validateField(this);
+            }
+        });
+        
+        // Limpiar error cuando el usuario escribe
+        input.addEventListener('input', function() {
+            interactedFields.add(this.id);
+            clearFieldError(this);
+        });
     });
     
-    function validateField(e) {
-        const field = e.target;
+    // Validar un campo específico
+    function validateField(field) {
         const errorSpan = document.getElementById(`${field.id}-error`);
         
+        // Solo validar si el campo está vacío
         if (!field.value.trim()) {
             showError(field, errorSpan, 'Este campo es requerido');
             return false;
         }
         
-        if (field.type === 'email' && !isValidEmail(field.value)) {
-            showError(field, errorSpan, 'Por favor ingresa un email válido');
-            return false;
-        }
-        
-        if (field.minLength && field.value.length < field.minLength) {
-            showError(field, errorSpan, `Mínimo ${field.minLength} caracteres`);
-            return false;
+        // Validaciones adicionales solo si hay contenido
+        if (field.value.trim()) {
+            if (field.type === 'email' && !isValidEmail(field.value)) {
+                showError(field, errorSpan, 'Por favor ingresa un email válido');
+                return false;
+            }
+            
+            if (field.minLength && field.value.length < field.minLength) {
+                showError(field, errorSpan, `Mínimo ${field.minLength} caracteres`);
+                return false;
+            }
         }
         
         clearError(field, errorSpan);
         return true;
+    }
+    
+    // Validar campo específico (versión para evento)
+    function validateFieldEvent(e) {
+        validateField(e.target);
     }
     
     function showError(field, errorSpan, message) {
@@ -55,8 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    function clearFieldError(e) {
-        const field = e.target;
+    function clearFieldError(field) {
         const errorSpan = document.getElementById(`${field.id}-error`);
         clearError(field, errorSpan);
     }
@@ -65,34 +103,43 @@ document.addEventListener('DOMContentLoaded', function() {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
     
-    // Validación antes de enviar (FormSubmit maneja el envío real)
+    // Validación antes de enviar
     contactForm.addEventListener('submit', function(e) {
         let isValid = true;
+        
+        // Forzar validación de todos los campos al enviar
         inputs.forEach(input => {
-            const event = new Event('blur');
-            input.dispatchEvent(event);
-            if (input.classList.contains('border-red-500')) {
+            // Marcar como interactuado
+            interactedFields.add(input.id);
+            
+            // Validar
+            if (!validateField(input)) {
                 isValid = false;
             }
         });
         
         if (!isValid) {
             e.preventDefault();
-            showStatus('Por favor, corrige los errores en el formulario', 'error');
+            showStatus('Por favor, completa todos los campos requeridos', 'error');
             return;
         }
         
-        // Si pasa validación, FormSubmit se encarga
+        // Si pasa validación, proceder con FormSubmit
         submitBtn.disabled = true;
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Enviando...';
         
-        showStatus('Redirigiendo a confirmación...', 'info');
+        showStatus('Enviando tu mensaje...', 'info');
         
+        // FormSubmit manejará el envío y redirección
+        // Restaurar botón después de 8 segundos (solo por si hay error)
         setTimeout(() => {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
-        }, 5000);
+            if (formStatus) {
+                formStatus.classList.add('hidden');
+            }
+        }, 8000);
     });
     
     function showStatus(message, type) {
@@ -103,16 +150,40 @@ document.addEventListener('DOMContentLoaded', function() {
         
         switch(type) {
             case 'success':
-                formStatus.classList.add('bg-green-100', 'text-green-700', 'border', 'border-green-300');
+                formStatus.classList.add('bg-green-100', 'text-green-700', 'border', 'border-green-300', 'dark:bg-green-900/30', 'dark:text-green-300');
                 break;
             case 'error':
-                formStatus.classList.add('bg-red-100', 'text-red-700', 'border', 'border-red-300');
+                formStatus.classList.add('bg-red-100', 'text-red-700', 'border', 'border-red-300', 'dark:bg-red-900/30', 'dark:text-red-300');
                 break;
             case 'info':
-                formStatus.classList.add('bg-blue-100', 'text-blue-700', 'border', 'border-blue-300');
+                formStatus.classList.add('bg-blue-100', 'text-blue-700', 'border', 'border-blue-300', 'dark:bg-blue-900/30', 'dark:text-blue-300');
                 break;
         }
         
         formStatus.classList.remove('hidden');
+        
+        // Ocultar mensaje después de 5 segundos (excepto éxito)
+        if (type !== 'success') {
+            setTimeout(() => {
+                formStatus.classList.add('hidden');
+            }, 5000);
+        }
     }
+    
+    // Inicialización: ocultar todos los errores al cargar
+    function initializeForm() {
+        inputs.forEach(input => {
+            const errorSpan = document.getElementById(`${input.id}-error`);
+            if (errorSpan) {
+                errorSpan.classList.add('hidden');
+            }
+        });
+        
+        if (formStatus) {
+            formStatus.classList.add('hidden');
+        }
+    }
+    
+    // Ejecutar inicialización
+    initializeForm();
 });
