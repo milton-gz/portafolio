@@ -13,6 +13,21 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/form.css">
 
+    <!-- Fuentes para los temas -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
     <style>
     /* ESTO VA DENTRO DE <head> O AL INICIO DE <body> */
     #name-error, #email-error, #subject-error, #message-error,
@@ -36,84 +51,76 @@
 </style>
 </head>
 <body class="bg-bg text-text">
-    <!-- Header/Navigation -->
-    <header class="sticky top-0 z-20 bg-card shadow-sm transition-all duration-300 border-b border-border">
-        <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold gradient-text">Milton<span class="code-font">G</span></div>
+
+    <!-- En tu index.html, actualiza el header: -->
+<header class="header-glass py-4">
+    <nav class="container">
+        <div class="flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="logo-text">
+                miltong
+            </a>
             
-            <div class="hidden md:flex space-x-6 lg:space-x-8 items-center">
-                <a href="#inicio" class="nav-link">Inicio</a>
-                <a href="#sobre-mi" class="nav-link">Sobre Mí</a>
-                <a href="#proyectos" class="nav-link">Proyectos</a>
-                <a href="#habilidades" class="nav-link">Habilidades</a>
-                <a href="#contacto" class="nav-link">Contacto</a>
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center space-x-8">
+                <div class="nav-menu">
+                    <a href="#inicio" class="nav-link">Inicio</a>
+                    <a href="#proyectos" class="nav-link">Proyectos</a>
+                    <a href="#habilidades" class="nav-link">Habilidades</a>
+                    <a href="#contacto" class="nav-link">Contacto</a>
+                </div>
                 
-                <!-- Theme Selector -->
-                <div class="flex items-center space-x-3 lg:space-x-4 ml-4">
-                    <button id="theme-toggle" class="theme-btn">
-                        <i class="fas fa-moon" id="theme-icon"></i>
-                    </button>
-                    
-                    <div class="flex bg-card p-1 rounded-xl border border-border">
-                        <div class="color-option bg-blue-500 active" data-scheme="blue">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <div class="color-option bg-green-500" data-scheme="green">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <div class="color-option bg-red-500" data-scheme="red">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <div class="color-option bg-purple-500" data-scheme="purple">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <div class="color-option bg-orange-500" data-scheme="orange">
-                            <i class="fas fa-check"></i>
-                        </div>
+                <!-- Theme Controls -->
+                <div class="theme-controls">
+                    <div class="color-selector-glass">
+                        <div class="color-dot-glass" data-scheme="blue" title="Azul Profesional"></div>
+                        <div class="color-dot-glass" data-scheme="green" title="Verde Natural"></div>
+                        <div class="color-dot-glass" data-scheme="purple" title="Púrpura Creativo"></div>
+                        <div class="color-dot-glass" data-scheme="amber" title="Ámbar Energético"></div>
+                        <div class="color-dot-glass" data-scheme="neon" title="Rosa Neón"></div>
+                        <div class="color-dot-glass" data-scheme="cyan" title="Cian Profundo"></div>
                     </div>
+                    
+                    <button id="theme-toggle" class="theme-btn-glass">
+                        <i id="theme-icon" class="fas fa-moon"></i>
+                    </button>
                 </div>
             </div>
             
-            <div class="md:hidden flex items-center space-x-3">
-                <button id="theme-toggle-mobile" class="theme-btn">
-                    <i class="fas fa-moon" id="theme-icon-mobile"></i>
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden flex items-center space-x-4">
+                <button id="theme-toggle-mobile" class="theme-btn-glass">
+                    <i id="theme-icon-mobile" class="fas fa-moon"></i>
                 </button>
-                <button id="menu-btn" class="text-text focus:outline-none theme-btn">
-                    <i class="fas fa-bars"></i>
+                
+                <button id="menu-btn" class="p-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20">
+                    <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
-        </nav>
+        </div>
         
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-card py-4 px-6 border-t border-border transition-all duration-300">
-            <a href="#inicio" class="block py-3 nav-link">Inicio</a>
-            <a href="#sobre-mi" class="block py-3 nav-link">Sobre Mí</a>
-            <a href="#proyectos" class="block py-3 nav-link">Proyectos</a>
-            <a href="#habilidades" class="block py-3 nav-link">Habilidades</a>
-            <a href="#contacto" class="block py-3 nav-link">Contacto</a>
-            
-            <div class="mt-4 pt-4 border-t border-border">
-                <p class="text-sm font-medium mb-3">Tema de color:</p>
-                <div class="flex bg-card p-1 rounded-xl border border-border w-fit">
-                    <div class="color-option bg-blue-500 active" data-scheme="blue">
-                        <i class="fas fa-check"></i>
-                    </div>
-                    <div class="color-option bg-green-500" data-scheme="green">
-                        <i class="fas fa-check"></i>
-                    </div>
-                    <div class="color-option bg-red-500" data-scheme="red">
-                        <i class="fas fa-check"></i>
-                    </div>
-                    <div class="color-option bg-purple-500" data-scheme="purple">
-                        <i class="fas fa-check"></i>
-                    </div>
-                    <div class="color-option bg-orange-500" data-scheme="orange">
-                        <i class="fas fa-check"></i>
+        <div id="mobile-menu" class="mobile-menu-glass">
+            <div class="flex flex-col space-y-4">
+                <a href="#inicio" class="nav-link text-lg">Inicio</a>
+                <a href="#proyectos" class="nav-link text-lg">Proyectos</a>
+                <a href="#habilidades" class="nav-link text-lg">Habilidades</a>
+                <a href="#contacto" class="nav-link text-lg">Contacto</a>
+                
+                <div class="pt-4 border-t border-white/10">
+                    <div class="color-selector-glass justify-center">
+                        <div class="color-dot-glass" data-scheme="blue"></div>
+                        <div class="color-dot-glass" data-scheme="green"></div>
+                        <div class="color-dot-glass" data-scheme="purple"></div>
+                        <div class="color-dot-glass" data-scheme="amber"></div>
+                        <div class="color-dot-glass" data-scheme="neon"></div>
+                        <div class="color-dot-glass" data-scheme="cyan"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </header>
+    </nav>
+</header>
 
     <!-- Hero Section -->
     <section id="inicio" class="min-h-screen flex items-center justify-center relative overflow-hidden hero-pattern">
