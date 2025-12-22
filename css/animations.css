@@ -1,35 +1,354 @@
-/* Animaciones para habilidades */
+/* ===== ANIMACIONES MEJORADAS ===== */
+
+/* Animación de aparición suave */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 40px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Animación de desvanecimiento */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease both;
+}
+
+/* Animación de escala */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.scale-in {
+    animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Animación de slide desde la izquierda */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translate3d(-50px, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Animación de slide desde la derecha */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translate3d(50px, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.slide-in-right {
+    animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Animación de rebote suave */
+@keyframes gentleBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.gentle-bounce {
+    animation: gentleBounce 3s ease-in-out infinite;
+}
+
+/* Animación de rotación suave */
+@keyframes gentleRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.gentle-rotate {
+    animation: gentleRotate 20s linear infinite;
+}
+
+/* Animación de pulso sutil */
+@keyframes subtlePulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+.subtle-pulse {
+    animation: subtlePulse 3s ease-in-out infinite;
+}
+
+/* Animación de gradiente animado */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.gradient-shift {
+    background-size: 200% 200%;
+    animation: gradientShift 5s ease infinite;
+}
+
+/* Animación de brillo */
+@keyframes shine {
+    from {
+        background-position: -100px;
+    }
+    to {
+        background-position: 200px;
+    }
+}
+
+.shine-effect {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%
+    );
+    background-size: 200px 100%;
+    animation: shine 3s infinite linear;
+}
+
+/* Animación de carga */
+@keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-spinner {
+    animation: loading 1s linear infinite;
+}
+
+/* Animación de progreso */
 @keyframes progressFill {
     from {
-        background: conic-gradient(var(--primary) 0% 0%, rgba(59, 130, 246, 0.1) 0% 100%);
+        transform: scaleX(0);
     }
     to {
-        background: conic-gradient(var(--primary) 0% var(--progress), rgba(59, 130, 246, 0.1) var(--progress) 100%);
+        transform: scaleX(1);
     }
 }
 
-@keyframes skillBarFill {
+.progress-fill {
+    transform-origin: left;
+    animation: progressFill 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Animación de onda */
+@keyframes wave {
+    0% {
+        transform: translateX(0) translateY(0);
+    }
+    50% {
+        transform: translateX(25%) translateY(-10px);
+    }
+    100% {
+        transform: translateX(0) translateY(0);
+    }
+}
+
+.wave-animation {
+    animation: wave 6s ease-in-out infinite;
+}
+
+/* Animación de flotación mejorada */
+@keyframes enhancedFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+    }
+    33% {
+        transform: translateY(-15px) rotate(2deg);
+        filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15));
+    }
+    66% {
+        transform: translateY(-10px) rotate(-1deg);
+        filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.12));
+    }
+}
+
+.enhanced-float {
+    animation: enhancedFloat 8s ease-in-out infinite;
+}
+
+/* Animación de aparición escalonada */
+.stagger-item {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.stagger-item:nth-child(1) { animation-delay: 0.1s; }
+.stagger-item:nth-child(2) { animation-delay: 0.2s; }
+.stagger-item:nth-child(3) { animation-delay: 0.3s; }
+.stagger-item:nth-child(4) { animation-delay: 0.4s; }
+.stagger-item:nth-child(5) { animation-delay: 0.5s; }
+.stagger-item:nth-child(6) { animation-delay: 0.6s; }
+.stagger-item:nth-child(7) { animation-delay: 0.7s; }
+.stagger-item:nth-child(8) { animation-delay: 0.8s; }
+
+/* Animación de hover para tarjetas */
+@keyframes cardHover {
     from {
-        width: 0%;
+        box-shadow: var(--shadow-md);
+        transform: translateY(0);
     }
     to {
-        width: var(--target-width);
+        box-shadow: var(--shadow-xl);
+        transform: translateY(-10px);
     }
 }
 
-/* Efectos hover mejorados */
-.skill-item {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.card-hover {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.skill-item:hover .skill-icon {
-    transform: scale(1.1) rotate(5deg);
+.card-hover:hover {
+    animation: cardHover 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.progress-circle {
-    transition: transform 0.3s ease;
+/* Animación de texto typing */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
 }
 
-.skill-item:hover .progress-circle {
-    transform: scale(1.1);
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
 }
+
+.typing-text {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 3.5s steps(40, end);
+}
+
+.typing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background-color: currentColor;
+    margin-left: 2px;
+    animation: blink 1s infinite;
+}
+
+/* Animación de partículas */
+@keyframes particleFloat {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) translateX(20px) rotate(180deg);
+        opacity: 0;
+    }
+}
+
+.particle {
+    position: absolute;
+    pointer-events: none;
+    animation: particleFloat 3s ease-out forwards;
+}
+
+/* Media queries para animaciones responsivas */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Clases de utilidad para delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-800 { animation-delay: 800ms; }
+.delay-900 { animation-delay: 900ms; }
+.delay-1000 { animation-delay: 1000ms; }
+
+/* Duración de animaciones */
+.duration-300 { animation-duration: 300ms; }
+.duration-500 { animation-duration: 500ms; }
+.duration-700 { animation-duration: 700ms; }
+.duration-1000 { animation-duration: 1000ms; }
+.duration-1500 { animation-duration: 1500ms; }
+.duration-2000 { animation-duration: 2000ms; }
