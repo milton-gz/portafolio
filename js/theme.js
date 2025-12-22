@@ -1,11 +1,49 @@
-// Theme System with 4 Color Schemes
+// Theme System with 6 Color Schemes
 const themeToggle = document.getElementById('theme-toggle');
 const themeToggleMobile = document.getElementById('theme-toggle-mobile');
 const themeIcon = document.getElementById('theme-icon');
 const themeIconMobile = document.getElementById('theme-icon-mobile');
 
-// Color schemes array (4 palettes)
-const colorSchemes = ['blue', 'green', 'purple', 'amber'];
+// Color schemes array (6 paletas)
+const colorSchemes = ['blue', 'green', 'purple', 'amber', 'neon', 'cyan'];
+
+// Font imports for each theme
+const themeFonts = {
+    'blue': {
+        heading: 'Inter',
+        body: 'Inter'
+    },
+    'green': {
+        heading: 'Montserrat',
+        body: 'Open Sans'
+    },
+    'purple': {
+        heading: 'Playfair Display',
+        body: 'Raleway'
+    },
+    'amber': {
+        heading: 'Poppins',
+        body: 'Nunito'
+    },
+    'neon': {
+        heading: 'Orbitron',
+        body: 'Exo 2'
+    },
+    'cyan': {
+        heading: 'Ubuntu',
+        body: 'Roboto'
+    }
+};
+
+// Load fonts dynamically
+function loadThemeFonts(scheme) {
+    const fonts = themeFonts[scheme];
+    
+    // You would need to add these to your HTML or use @import
+    // For now, we'll just update CSS variables
+    document.documentElement.style.setProperty('--font-heading', fonts.heading);
+    document.documentElement.style.setProperty('--font-body', fonts.body);
+}
 
 // Initialize theme from localStorage or system preference
 function initializeTheme() {
@@ -36,6 +74,10 @@ function toggleTheme() {
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
     updateThemeIcons(isDarkMode);
     updateColorOptions();
+    
+    // Apply theme-specific styles
+    const currentScheme = localStorage.getItem('color-scheme') || 'blue';
+    applyColorScheme(currentScheme);
 }
 
 // Update theme icons
@@ -64,8 +106,11 @@ function applyColorScheme(scheme) {
     // Add the selected scheme
     document.body.classList.add(`color-scheme-${scheme}`);
     
+    // Load theme fonts
+    loadThemeFonts(scheme);
+    
     // Update active state in UI
-    const colorOptions = document.querySelectorAll('.color-option');
+    const colorOptions = document.querySelectorAll('.color-option, .color-dot-glass');
     colorOptions.forEach(option => {
         option.classList.remove('active');
         if (option.getAttribute('data-scheme') === scheme) {
@@ -80,11 +125,17 @@ function applyColorScheme(scheme) {
     document.dispatchEvent(new CustomEvent('colorschemechange', { 
         detail: { scheme } 
     }));
+    
+    // Add animation effect
+    document.body.classList.add('theme-transition');
+    setTimeout(() => {
+        document.body.classList.remove('theme-transition');
+    }, 1000);
 }
 
 // Update color options based on current theme
 function updateColorOptions() {
-    const colorOptions = document.querySelectorAll('.color-option');
+    const colorOptions = document.querySelectorAll('.color-option, .color-dot-glass');
     const isDarkMode = document.body.classList.contains('dark-mode');
     
     colorOptions.forEach(option => {
@@ -107,25 +158,48 @@ function updateColorOptions() {
             case 'amber':
                 option.style.backgroundColor = '#d97706';
                 break;
+            case 'neon':
+                option.style.backgroundColor = '#db2777';
+                break;
+            case 'cyan':
+                option.style.backgroundColor = '#0891b2';
+                break;
         }
     });
 }
 
 // Color Scheme Changer
 function setupColorSchemeButtons() {
-    const colorOptions = document.querySelectorAll('.color-option');
+    const colorOptions = document.querySelectorAll('.color-option, .color-dot-glass');
     
     colorOptions.forEach(option => {
         option.addEventListener('click', function() {
             const scheme = this.getAttribute('data-scheme');
             if (colorSchemes.includes(scheme)) {
                 applyColorScheme(scheme);
+                
+                // Add click animation
+                this.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1.2)';
+                }, 150);
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 300);
             }
         });
         
         // Add tooltip
         const scheme = option.getAttribute('data-scheme');
-        option.setAttribute('title', scheme.charAt(0).toUpperCase() + scheme.slice(1));
+        const schemeNames = {
+            'blue': 'Azul Profesional',
+            'green': 'Verde Natural',
+            'purple': 'Púrpura Creativo',
+            'amber': 'Ámbar Energético',
+            'neon': 'Rosa Neón',
+            'cyan': 'Cian Profundo'
+        };
+        option.setAttribute('title', schemeNames[scheme]);
     });
 }
 
