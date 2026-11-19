@@ -1,1035 +1,184 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Milton Gutiérrez - Portfolio</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
-    <!-- Fuentes principales -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
-    <!-- CSS Personalizado -->
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/form.css">
-
-    <!-- Fuentes para temas -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&family=Ubuntu:wght@300;400;500;700&family=Open+Sans:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
-    <style>
-    /* Inicializar Tailwind con colores personalizados */
-    tailwind.config = {
-        theme: {
-            extend: {
-                colors: {
-                    'primary': 'var(--color-primary)',
-                    'secondary': 'var(--color-secondary)',
-                    'accent': 'var(--color-accent)',
-                    'bg': 'var(--color-bg)',
-                    'text': 'var(--color-text)',
-                    'card': 'var(--color-card)',
-                    'border': 'var(--color-border)',
-                }
-            }
-        }
-    }
-    
-    /* Estilos para la animación de tecnologías */
-    .tech-icon {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 0;
-        font-size: 3.5rem;
-        color: white;
-        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-    
-    .tech-icon.active {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-    }
-    
-    /* Ajuste para habilidades igualadas */
-    .skill-category {
-        min-height: 300px;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .skill-items-container {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Portafolio de Milton Gutiérrez, estudiante de Ingeniería en Sistemas y desarrollador web en El Salvador. PHP, MySQL y sistemas útiles.">
+  <meta name="theme-color" content="#0e1013">
+  <title>Milton Gutiérrez | Desarrollo web</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/window-manager.css">
+  <script src="js/theme.js" defer></script>
+  <script src="js/workspaces.js" defer></script>
+  <script src="js/form.js" defer></script>
+  <script src="js/main.js" defer></script>
 </head>
-<body class="bg-bg text-text min-h-screen transition-colors duration-300">
+<body class="theme-graphite">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
-    <!-- Header -->
-    <header class="header-glass py-4 fixed top-0 left-0 right-0 z-50">
-        <nav class="container">
-            <div class="flex items-center justify-between">
-                <!-- Logo -->
-                <a href="#" class="logo-text text-2xl font-bold">
-                    miltong
-                </a>
-                
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <div class="nav-menu">
-                        <a href="#inicio" class="nav-link">Inicio</a>
-                        <a href="#proyectos" class="nav-link">Proyectos</a>
-                        <a href="#habilidades" class="nav-link">Habilidades</a>
-                        <a href="#contacto" class="nav-link">Contacto</a>
-                    </div>
-                    
-                    <!-- Theme Controls -->
-                    <div class="theme-controls">
-                        <div class="color-selector-glass">
-                            <div class="color-dot-glass" data-scheme="blue" title="Azul Profesional"></div>
-                            <div class="color-dot-glass" data-scheme="green" title="Verde Natural"></div>
-                            <div class="color-dot-glass" data-scheme="purple" title="Púrpura Creativo"></div>
-                            <div class="color-dot-glass" data-scheme="amber" title="Ámbar Energético"></div>
-                            <div class="color-dot-glass" data-scheme="neon" title="Rosa Neón"></div>
-                            <div class="color-dot-glass" data-scheme="cyan" title="Cian Profundo"></div>
-                        </div>
-                        
-                        <button id="theme-toggle" class="theme-btn-glass" aria-label="Cambiar tema">
-                            <i id="theme-icon" class="fas fa-moon"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center space-x-4">
-                    <button id="theme-toggle-mobile" class="theme-btn-glass" aria-label="Cambiar tema">
-                        <i id="theme-icon-mobile" class="fas fa-moon"></i>
-                    </button>
-                    
-                    <button id="menu-btn" class="mobile-menu-btn" aria-label="Abrir menú">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="mobile-menu-glass">
-                <div class="flex flex-col space-y-4">
-                    <a href="#inicio" class="nav-link text-lg py-2">Inicio</a>
-                    <a href="#proyectos" class="nav-link text-lg py-2">Proyectos</a>
-                    <a href="#habilidades" class="nav-link text-lg py-2">Habilidades</a>
-                    <a href="#contacto" class="nav-link text-lg py-2">Contacto</a>
-                    
-                    <div class="pt-4 border-t border-white/10">
-                        <div class="color-selector-glass justify-center">
-                            <div class="color-dot-glass" data-scheme="blue"></div>
-                            <div class="color-dot-glass" data-scheme="green"></div>
-                            <div class="color-dot-glass" data-scheme="purple"></div>
-                            <div class="color-dot-glass" data-scheme="amber"></div>
-                            <div class="color-dot-glass" data-scheme="neon"></div>
-                            <div class="color-dot-glass" data-scheme="cyan"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
+  <header class="bar">
+    <a class="brand" href="#inicio" aria-label="miltong, ir al inicio">miltong<span>.</span></a>
+    <button class="icon-button menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="primary-navigation">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <nav id="primary-navigation" class="primary-navigation" aria-label="Navegación principal">
+      <a href="#inicio" class="is-current">Inicio</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#aplicado">Lo aplicado</a>
+      <a href="#habilidades">Habilidades</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="theme-controls">
+      
+      <button class="icon-button theme-toggle" type="button" aria-label="Cambiar entre tema claro y oscuro" title="Cambiar modo claro u oscuro">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.4A8.5 8.5 0 0 1 8.6 3.8 8.5 8.5 0 1 0 20.2 15.4Z"/></svg>
+      </button>
+      <label class="sr-only" for="theme-select">Esquema de color</label>
+      <select id="theme-select" class="theme-select">
+        <option value="theme-graphite">Grafito</option>
+        <option value="theme-oled">OLED</option>
+        <option value="theme-paper">Papel</option>
+        <option value="theme-nature">Naturaleza</option>
+      </select>
+    </div>
+  </header>
 
-    <!-- Hero Section -->
-    <section id="inicio" class="min-h-screen flex items-center justify-center relative overflow-hidden hero-pattern pt-20">
-        <div class="container mx-auto px-4 sm:px-6 py-16 lg:py-20 hero-content">
-            <div class="flex flex-col lg:flex-row items-center justify-between">
-                <div class="lg:w-1/2 mb-12 lg:mb-0">
-                    <div class="mb-4">
-                        <span class="px-4 py-2 bg-primary bg-opacity-10 text-primary rounded-full text-sm font-medium border border-primary border-opacity-20">
-                            Estudiante de Bachillerato en Informática
-                        </span>
-                    </div>
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                        Hola, soy <span class="gradient-text">Milton Gutiérrez</span>
-                    </h1>
-                    <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl leading-relaxed high-contrast-text">
-                        Desarrollador web con experiencia en creación de sistemas complejos usando PHP, MySQL y Tailwind CSS. 
-                        Apasionado por la tecnología y con miras hacia la Ingeniería en Sistemas.
-                    </p>
-                    
-                    <!-- Botones alineados horizontalmente con MISMO estilo -->
-                    <div class="flex flex-wrap gap-4 mb-8">
-                        <a href="#proyectos" class="btn-primary flex items-center justify-center">
-                            <i class="fas fa-code mr-2"></i> Ver Proyectos
-                        </a>
-                        <a href="assets/cv-milton-gutierrez.pdf" download class="btn-primary flex items-center justify-center">
-                            <i class="fas fa-download mr-2"></i> Descargar CV
-                        </a>
-                        <a href="#contacto" class="btn-primary flex items-center justify-center">
-                            <i class="fas fa-paper-plane mr-2"></i> Contactar
-                        </a>
-                    </div>
-                    
-                    <!-- Botones sociales -->
-                    <div class="social-buttons">
-                        <a href="https://github.com/Milton-gz" target="_blank" class="social-btn github" title="GitHub" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/milton-gutierrez-rodriguez-27501639b" target="_blank" class="social-btn linkedin" title="LinkedIn" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="https://www.instagram.com/miltongutierrez971/" target="_blank" class="social-btn instagram" title="Instagram" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://wa.me/50379940919" target="_blank" class="social-btn whatsapp" title="WhatsApp" aria-label="WhatsApp">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="lg:w-2/5 hero-visual">
-                    <div class="relative">
-                        <div class="w-64 h-64 lg:w-80 lg:h-80 rounded-full gradient-bg flex items-center justify-center floating shadow-2xl">
-                            <i class="fas fa-laptop-code text-5xl lg:text-7xl text-white"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <main id="contenido">
+    <section id="inicio" class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="status"><span class="dot"></span>Estudiante de Ingeniería en Sistemas · El Salvador</p>
+          <h1><span class="h-line">Milton</span> <span class="h-line">Gutiérrez</span></h1>
+          <p class="lead">Desarrollo sistemas web con PHP y MySQL. Me interesa entender cómo funciona la tecnología y convertirla en herramientas que la gente use de verdad.</p>
+          <div class="actions">
+            <a class="button button-primary" href="#proyectos">Ver proyectos</a>
+            <a class="button button-quiet" href="#contacto">Escribirme</a>
+          </div>
+          <ul class="socials" aria-label="Redes sociales">
+            <li><a class="social-link" href="https://github.com/milton-gz" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a class="social-link" href="https://www.instagram.com/milton_rtz/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a class="social-link" href="https://wa.me/50379940919?text=Hola%20Milton%2C%20vi%20tu%20portafolio" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+          </ul>
         </div>
 
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-            <a href="#sobre-mi" class="animate-bounce inline-flex items-center justify-center w-10 h-10 rounded-full bg-card border border-border text-primary shadow-md" aria-label="Scroll down">
-                <i class="fas fa-chevron-down"></i>
-            </a>
+        <div class="term" role="img" aria-label="Terminal con resumen del perfil de Milton">
+          <div class="term-bar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span>milton@rtz: ~/portafolio</span></div>
+          <div class="term-body">
+            <p class="cmd"><span class="t-p">$</span> milton --perfil</p>
+            <dl class="kv">
+              <div><dt>Nombre</dt><dd>Milton Gutiérrez</dd></div>
+              <div><dt>Estudia</dt><dd>Ingeniería en Sistemas</dd></div>
+              <div><dt>Ubicación</dt><dd>El Salvador</dd></div>
+              <div><dt>Estado</dt><dd><span class="dot"></span>Abierto a oportunidades</dd></div>
+            </dl>
+            <p class="cmd"><span class="t-p">$</span> <span class="cursor" aria-hidden="true"></span></p>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- About Section -->
-    <section id="sobre-mi" class="py-16 lg:py-20 bg-card transition-all duration-300 scroll-mt-20">
-        <div class="container mx-auto px-4 sm:px-6">
-            <h2 class="text-3xl font-bold text-center mb-12 section-title mx-auto">Sobre Mí</h2>
-            
-            <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-                <div class="lg:w-2/5 flex justify-center">
-                    <div class="relative">
-                        <!-- Círculo con animación de tecnologías -->
-                        <div class="w-56 h-56 lg:w-64 lg:h-64 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center shadow-2xl relative overflow-hidden">
-                            <!-- Iconos de tecnologías que rotarán -->
-                            <div id="tech-icons-container" class="relative w-full h-full">
-                                <!-- Los iconos se agregarán dinámicamente con JavaScript -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="lg:w-3/5">
-                    <p class="text-lg mb-6 high-contrast-text">
-                        Soy un estudiante de <span class="font-semibold text-primary">Ing. en Sistemas</span>, 
-                        con una pasión innata por la tecnología y el desarrollo de soluciones innovadoras. A mis 17 años, 
-                        he logrado desarrollar sistemas web funcionales que incluyen bases de datos complejas, múltiples tipos de usuarios 
-                        e interfaces intuitivas.
-                    </p>
-                    
-                    <p class="text-lg mb-6 high-contrast-text">
-                        Mi enfoque actual está en el <span class="font-semibold text-primary">desarrollo web</span>, pero también me interesan 
-                        áreas como la <span class="font-semibold text-primary">ciberseguridad</span>, mantenimiento de equipos, programación y sistemas informáticos.
-                    </p>
-                    
-                    <div class="philosophy-card p-6 my-8">
-                        <h3 class="font-bold text-primary mb-2 text-lg">Mi Filosofía</h3>
-                        <p class="italic high-contrast-text">"Cada línea de código es una oportunidad para crear, resolver y mejorar. La tecnología no es solo herramientas, 
-                        es el medio para construir soluciones que impacten positivamente en la educación y la sociedad."</p>
-                    </div>
-
-                    <div class="flex items-center mt-6 text-gray-600 dark:text-gray-400">
-                        <i class="fas fa-map-marker-alt mr-2 text-primary"></i>
-                        <span>El Salvador</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Timeline -->
-            <div class="mt-12 lg:mt-16 max-w-4xl mx-auto">
-                <h3 class="text-2xl font-bold text-center mb-8">Mi Trayectoria</h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-                    <div class="timeline-item">
-                        <h4 class="font-bold text-lg">2021 - 2023</h4>
-                        <p class="text-primary font-medium">Primeros Pasos en Programación</p>
-                        <p class="text-gray-600 dark:text-gray-300 high-contrast-text">Comencé mi camino autodidacta explorando HTML y CSS, descubriendo mi pasión por crear experiencias web y sentando las bases de mi carrera en desarrollo.</p>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <h4 class="font-bold text-lg">2024 - 2025</h4>
-                        <p class="text-primary font-medium">Bachillerato en Informática</p>
-                        <p class="text-gray-600 dark:text-gray-300 high-contrast-text">Formación técnica especializada en programación, desarrollo de software, administración de redes y dominio del Paquete de Microsoft Office.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <h4 class="font-bold text-lg">2026 - Actualidad</h4>
-                        <p class="text-primary font-medium">Desarrollo de Sistemas Web</p>
-                        <p class="text-gray-600 dark:text-gray-300 high-contrast-text">Creación de sistemas completos con autenticación multi-usuario, gestión de bases de datos relacionales y diseño de interfaces responsivas profesionales.</p>
-                    </div>
-                </div>
-            </div>
+    <section id="sobre-mi" class="section">
+      <div class="wrap two">
+        <div>
+          <h2>Aprender, construir, mejorar.</h2>
+          <p>Soy estudiante salvadoreño de Ingeniería en Sistemas. Vengo de un bachillerato en informática y de una ruta de aprendizaje mayormente autodidacta.</p>
+          <p>Para mí el buen código simplifica lo complejo: se entiende, sirve y siempre se puede mejorar.</p>
+          <blockquote>La tecnología tiene más valor cuando se pone al servicio de las personas.</blockquote>
         </div>
+        <ol class="timeline" aria-label="Trayectoria">
+          <li><time>2021 – 2023</time><h3>Primeros pasos autodidactas</h3><p>Herramientas digitales, fundamentos de programación y primeros proyectos personales.</p></li>
+          <li><time>2024 – 2025</time><h3>Bachillerato en Informática</h3><p>Informática, bases de datos, lógica y desarrollo de soluciones digitales.</p></li>
+          <li class="now"><time>2026 – hoy</time><h3>Ingeniería en Sistemas</h3><p>Segundo ciclo universitario y sistemas web con buenas prácticas.</p></li>
+        </ol>
+      </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="proyectos" class="py-16 lg:py-20 transition-all duration-300 scroll-mt-20">
-        <div class="container mx-auto px-4 sm:px-6">
-            <h2 class="text-3xl font-bold text-center mb-12 section-title mx-auto">Mis Proyectos</h2>
-            <p class="text-lg text-center text-gray-600 dark:text-gray-300 mb-8 lg:mb-12 max-w-2xl mx-auto high-contrast-text">
-                Proyectos desarrollados que demuestran mis habilidades técnicas y capacidad para resolver problemas complejos.
-            </p>
-            
-            <!-- Filtros de proyectos -->
-            <div class="flex flex-wrap justify-center gap-2 mb-8 lg:mb-12">
-                <button class="filter-btn active px-4 py-2 rounded-full bg-primary text-white text-sm font-medium transition-all duration-300" data-filter="all">
-                    Todos
-                </button>
-                <button class="filter-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white" data-filter="web">
-                    Desarrollo Web
-                </button>
-                <button class="filter-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white" data-filter="php">
-                    PHP
-                </button>
-                <button class="filter-btn px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white" data-filter="progress">
-                    En Progreso
-                </button>
-            </div>
-            
-            <div class="projects-grid" id="projects-container">
-                <!-- Project 1 -->
-                <div class="project-card" data-categories="web php">
-                    <div class="project-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <span class="project-status completed">Completado</span>
-                    <h3 class="text-xl font-bold mb-3">Sistema de Servicio Social</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4 high-contrast-text">
-                        Sistema web completo con 3 tipos de usuarios (admin, estudiante, coordinador) para gestión del servicio social estudiantil.
-                    </p>
-                    
-                    <div class="project-features">
-                        <h4 class="font-semibold text-primary mb-2">Características:</h4>
-                        <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1 high-contrast-text">
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-500 mr-2 text-xs"></i>
-                                Autenticación de usuarios
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-500 mr-2 text-xs"></i>
-                                Panel administrativo
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-500 mr-2 text-xs"></i>
-                                Reportes automáticos
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="project-tags">
-                        <span class="project-tag">PHP</span>
-                        <span class="project-tag">MySQL</span>
-                        <span class="project-tag">Tailwind</span>
-                    </div>
-                    
-                    <div class="project-actions">
-                        <button class="project-detail-btn btn-outline" data-project="1" data-title="Sistema de Servicio Social">
-                            Ver detalles <i class="fas fa-arrow-right ml-2"></i>
-                        </button>
-                        <div class="flex space-x-3">
-                            <a href="#" class="text-gray-500 hover:text-primary transition-colors duration-300" title="Código Fuente" aria-label="Ver código en GitHub">
-                                <i class="fab fa-github"></i>
-                            </a>
-                            <a href="#" class="text-gray-500 hover:text-primary transition-colors duration-300" title="Demo en Vivo" aria-label="Ver demo">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Project 2 -->
-                <div class="project-card" data-categories="web php">
-                    <div class="project-icon">
-                        <i class="fas fa-clipboard-list"></i>
-                    </div>
-                    <span class="project-status completed">Completado</span>
-                    <h3 class="text-xl font-bold mb-3">Sistema de Conducta Estudiantil</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4 high-contrast-text">
-                        Sistema integral para administración de faltas estudiantiles con base de datos relacional compleja y reportes detallados.
-                    </p>
-                    
-                    <div class="project-features">
-                        <h4 class="font-semibold text-primary mb-2">Características:</h4>
-                        <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-1 high-contrast-text">
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-500 mr-2 text-xs"></i>
-                                Gestión de sanciones
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-500 mr-2 text-xs"></i>
-                                Notificaciones automáticas
-                            </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-green-500 mr-2 text-xs"></i>
-                                Historial completo
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="project-tags">
-                        <span class="project-tag">PHP</span>
-                        <span class="project-tag">MySQL</span>
-                        <span class="project-tag">Librerías PHP</span>
-                        <span class="project-tag">InfinityFree</span>
-                    </div>
-                    
-                    <div class="project-actions">
-                        <button class="project-detail-btn btn-outline" data-project="2" data-title="Sistema de Conducta Estudiantil">
-                            Ver detalles <i class="fas fa-arrow-right ml-2"></i>
-                        </button>
-                        <div class="flex space-x-3">
-                            <a href="#" class="text-gray-500 hover:text-primary transition-colors duration-300" title="Código Fuente" aria-label="Ver código en GitHub">
-                                <i class="fab fa-github"></i>
-                            </a>
-                            <a href="#" class="text-gray-500 hover:text-primary transition-colors duration-300" title="Demo en Vivo" aria-label="Ver demo">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section id="aplicado" class="section">
+      <div class="wrap">
+        <div class="section-head"><div>
+          <h2>Lo que he aplicado</h2>
+          <p>Más que una lista de proyectos, esto es lo que he practicado y puesto en uso en mis casos académicos.</p>
+        </div></div>
+        <div class="applied">
+          <article><h3>Bases de datos relacionales</h3><p>Diseño de tablas, relaciones y consultas SQL para guardar, buscar y consultar registros.</p><div class="tags"><span class="tag">MySQL</span><span class="tag">SQL</span></div></article>
+          <article><h3>Lógica de servidor</h3><p>Formularios, procesamiento de datos y conexión entre la página y la base de datos con PHP.</p><div class="tags"><span class="tag">PHP</span></div></article>
+          <article><h3>Interfaces claras y responsivas</h3><p>Pantallas que se adaptan al celular y al escritorio, con atención a la accesibilidad y al teclado.</p><div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Tailwind</span></div></article>
+          <article><h3>Validación y cuidado de datos</h3><p>Campos validados y protección básica contra spam en formularios, como el de este sitio.</p><div class="tags"><span class="tag">JavaScript</span></div></article>
         </div>
+        <p class="where"><span class="dot"></span>Lo estoy aplicando en dos casos académicos en progreso: un sistema de servicio social y un sistema de conducta estudiantil.</p>
+      </div>
     </section>
 
-       <!-- Skills Section - REDISTRIBUIDA CON NIVELES REALES -->
-    <section id="habilidades" class="py-16 lg:py-20 bg-card transition-all duration-300 scroll-mt-20">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 lg:mb-16">
-                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 section-title mx-auto">Mis Habilidades</h2>
-                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed high-contrast-text">
-                    Tecnologías y herramientas que estoy aprendiendo y utilizando en mis proyectos.
-                </p>
-            </div>
-            
-            <!-- Grid Principal - Niveles reales y redistribuido -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-10 lg:mb-12">
-                
-                <!-- Desarrollo Web Principal -->
-                <div class="skill-category">
-                    <div class="flex items-center mb-6">
-                        <div class="skill-icon-lg mr-4">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-theme-primary">Desarrollo Web</h3>
-                    </div>
-                    <div class="skill-items-container">
-                        <div class="space-y-4">
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fab fa-php"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">PHP</span>
-                                    <span class="level-badge level-intermediate">Básico-Intermedio</span>
-                                </div>
-                            </div>
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fab fa-html5"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">HTML5</span>
-                                    <span class="level-badge level-intermediate">Intermedio</span>
-                                </div>
-                            </div>
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fab fa-css3-alt"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">CSS3</span>
-                                    <span class="level-badge level-beginner">Básico</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Herramientas y Plataformas -->
-                <div class="skill-category">
-                    <div class="flex items-center mb-6">
-                        <div class="skill-icon-lg mr-4">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-theme-primary">Herramientas</h3>
-                    </div>
-                    <div class="skill-items-container">
-                        <div class="space-y-4">
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fas fa-code"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">VS Code</span>
-                                    <span class="level-badge level-intermediate">Intermedio</span>
-                                </div>
-                            </div>
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fab fa-github"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">GitHub</span>
-                                    <span class="level-badge level-beginner">Básico</span>
-                                </div>
-                            </div>
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">InfinityFree</span>
-                                    <span class="level-badge level-intermediate">Intermedio</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Bases de Datos y Librerías -->
-                <div class="skill-category">
-                    <div class="flex items-center mb-6">
-                        <div class="skill-icon-lg mr-4">
-                            <i class="fas fa-database"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-theme-primary">Bases de Datos</h3>
-                    </div>
-                    <div class="skill-items-container">
-                        <div class="space-y-4">
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fas fa-database"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">MySQL</span>
-                                    <span class="level-badge level-beginner">Básico</span>
-                                </div>
-                            </div>
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fas fa-book"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">PHPMailer</span>
-                                    <span class="level-badge level-beginner">Básico</span>
-                                </div>
-                            </div>
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fas fa-chart-bar"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">FPDF</span>
-                                    <span class="level-badge level-beginner">Básico</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Conocimientos Generales -->
-                <div class="skill-category">
-                    <div class="flex items-center mb-6">
-                        <div class="skill-icon-lg mr-4">
-                            <i class="fas fa-laptop-code"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-theme-primary">Conocimientos</h3>
-                    </div>
-                    <div class="skill-items-container">
-                        <div class="space-y-4">
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fas fa-file-alt"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">Paquete Office</span>
-                                    <span class="level-badge level-intermediate">Intermedio</span>
-                                </div>
-                            </div>
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fas fa-robot"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">IA y Prompts</span>
-                                    <span class="level-badge level-intermediate">Intermedio</span>
-                                </div>
-                            </div>
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fas fa-search"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">Resolución de problemas</span>
-                                    <span class="level-badge level-intermediate">Intermedio</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- En Aprendizaje -->
-                <div class="skill-category">
-                    <div class="flex items-center mb-6">
-                        <div class="skill-icon-lg mr-4">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-theme-primary">En Aprendizaje</h3>
-                    </div>
-                    <div class="skill-items-container">
-                        <div class="space-y-4">
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fab fa-js-square"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">JavaScript</span>
-                                    <span class="level-badge level-beginner">Principiante</span>
-                                </div>
-                            </div>
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fas fa-paint-brush"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">Tailwind CSS</span>
-                                    <span class="level-badge level-beginner">Principiante</span>
-                                </div>
-                            </div>
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fab fa-python"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">Python</span>
-                                    <span class="level-badge level-beginner">Principiante</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Por Explorar -->
-                <div class="skill-category">
-                    <div class="flex items-center mb-6">
-                        <div class="skill-icon-lg mr-4">
-                            <i class="fas fa-compass"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-theme-primary">Por Explorar</h3>
-                    </div>
-                    <div class="skill-items-container">
-                        <div class="space-y-4">
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fas fa-mobile-alt"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">React</span>
-                                    <span class="level-badge level-beginner">Futuro</span>
-                                </div>
-                            </div>
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fas fa-shield-alt"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">Ciberseguridad</span>
-                                    <span class="level-badge level-beginner">Futuro</span>
-                                </div>
-                            </div>
-                            <div class="skill-item hover-lift">
-                                <div class="skill-icon">
-                                    <i class="fas fa-network-wired"></i>
-                                </div>
-                                <div class="skill-info">
-                                    <span class="skill-name text-theme-primary">Redes</span>
-                                    <span class="level-badge level-beginner">Futuro</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tecnologías en Aprendizaje Continuo -->
-            <div class="mt-16 lg:mt-20">
-                <div class="text-center mb-10 lg:mb-12">
-                    <div class="flex items-center justify-center mb-4">
-                        <i class="fas fa-graduation-cap text-3xl text-primary mr-4"></i>
-                        <h3 class="text-2xl md:text-3xl font-bold">Tecnologías en Aprendizaje Continuo</h3>
-                        <i class="fas fa-graduation-cap text-3xl text-primary ml-4"></i>
-                    </div>
-                    <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto high-contrast-text">
-                        Actualmente expandiendo mis conocimientos en estas tecnologías paso a paso
-                    </p>
-                </div>
-                
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-                    <div class="learning-card hover-lift">
-                        <div class="learning-icon mb-4">
-                            <i class="fab fa-js-square"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-center text-theme-primary">JavaScript</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-300 text-center mb-3">Interactividad web básica</p>
-                        <div class="skill-level flex justify-center">
-                            <div class="level-dot active"></div>
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="learning-card hover-lift">
-                        <div class="learning-icon mb-4">
-                            <i class="fas fa-paint-brush"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-center text-theme-primary">Tailwind CSS</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-300 text-center mb-3">Diseño moderno y rápido</p>
-                        <div class="skill-level flex justify-center">
-                            <div class="level-dot active"></div>
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="learning-card hover-lift">
-                        <div class="learning-icon mb-4">
-                            <i class="fab fa-python"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-center text-theme-primary">Python</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-300 text-center mb-3">Programación versátil</p>
-                        <div class="skill-level flex justify-center">
-                            <div class="level-dot active"></div>
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="learning-card hover-lift">
-                        <div class="learning-icon mb-4">
-                            <i class="fas fa-database"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-center text-theme-primary">MySQL Avanzado</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-300 text-center mb-3">Consultas complejas</p>
-                        <div class="skill-level flex justify-center">
-                            <div class="level-dot active"></div>
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="learning-card hover-lift">
-                        <div class="learning-icon mb-4">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-center text-theme-primary">React</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-300 text-center mb-3">Frontend moderno</p>
-                        <div class="skill-level flex justify-center">
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                            <div class="level-dot"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section id="habilidades" class="section">
+      <div class="wrap">
+        <div class="section-head"><div>
+          <h2>Mi entorno de trabajo</h2>
+          <p>Cambia de escritorio para ver las herramientas de cada área, igual que en mi sistema.</p>
+        </div></div>
+
+        <div class="window-manager" data-workspace-theme="web">
+          <div class="wm-tabs" role="tablist" aria-label="Escritorios de habilidades" aria-orientation="vertical">
+            <button class="workspace-tab is-active" id="workspace-tab-1" type="button" role="tab" aria-selected="true" aria-controls="workspace-panel" tabindex="0" data-workspace="web"><span class="workspace-number">1</span>Web</button>
+            <button class="workspace-tab" id="workspace-tab-2" type="button" role="tab" aria-selected="false" aria-controls="workspace-panel" tabindex="-1" data-workspace="database"><span class="workspace-number">2</span>Backend y datos</button>
+            <button class="workspace-tab" id="workspace-tab-3" type="button" role="tab" aria-selected="false" aria-controls="workspace-panel" tabindex="-1" data-workspace="programming"><span class="workspace-number">3</span>Programación</button>
+            <button class="workspace-tab" id="workspace-tab-4" type="button" role="tab" aria-selected="false" aria-controls="workspace-panel" tabindex="-1" data-workspace="environment"><span class="workspace-number">4</span>Entorno y Linux</button>
+            <button class="workspace-tab" id="workspace-tab-5" type="button" role="tab" aria-selected="false" aria-controls="workspace-panel" tabindex="-1" data-workspace="design"><span class="workspace-number">5</span>Diseño</button>
+          </div>
+          <div class="wm-content" id="workspace-panel" role="tabpanel" aria-labelledby="workspace-tab-1" tabindex="0">
+            <p class="wm-path">~/habilidades/<span data-workspace-path>web</span></p>
+            <h3 class="wm-title" data-workspace-title>Desarrollo web</h3>
+            <p class="wm-description" data-workspace-description></p>
+            <div class="skill-grid" data-skill-list aria-live="polite"></div>
+          </div>
         </div>
+        <p class="note">Los niveles describen mi experiencia actual y reflejan con honestidad mi etapa de formación.</p>
+      </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contacto" class="py-16 lg:py-20 transition-all duration-300 scroll-mt-20">
-        <div class="container mx-auto px-4 sm:px-6">
-            <h2 class="text-3xl font-bold text-center mb-12 section-title mx-auto">Contacto</h2>
-            <p class="text-lg text-center text-gray-600 dark:text-gray-300 mb-8 lg:mb-12 max-w-2xl mx-auto high-contrast-text">
-                ¿Tienes un proyecto en mente o quieres conocer más sobre mi trabajo? ¡No dudes en contactarme!
-            </p>
-            
-            <div class="max-w-4xl mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-hidden transition-all duration-300 border border-gray-200 dark:border-gray-800">
-                <div class="md:flex">
-                    <!-- Información de contacto -->
-                    <div class="md:w-2/5 bg-gradient-to-br from-blue-600 to-indigo-700 text-white p-6 lg:p-8">
-                        <h3 class="text-2xl font-bold mb-6">Información de Contacto</h3>
-                        
-                        <div class="space-y-6 mb-8">
-                            <div class="flex items-start">
-                                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mr-4 flex-shrink-0">
-                                    <i class="fas fa-envelope"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold mb-1">Email</h4>
-                                    <p class="text-blue-100">milton.gutierrez.tech@gmail.com</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start">
-                                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mr-4 flex-shrink-0">
-                                    <i class="fas fa-phone"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold mb-1">Teléfono</h4>
-                                    <p class="text-blue-100">+503 7994 0919</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start">
-                                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mr-4 flex-shrink-0">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold mb-1">Ubicación</h4>
-                                    <p class="text-blue-100">El Salvador</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Redes sociales mejoradas -->
-                        <div class="text-center">
-                            <p class="text-blue-100 mb-6 text-lg font-medium">Sígueme para más contenido</p>
-                            <div class="flex justify-center space-x-5 md:space-x-6">
-                                <a href="https://github.com/Milton-gz" 
-                                   target="_blank"
-                                   rel="noopener noreferrer"
-                                   class="social-icon w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 hover:text-white transition-all duration-300 transform hover:-translate-y-2 shadow-md hover:shadow-lg"
-                                   aria-label="GitHub">
-                                    <i class="fab fa-github text-2xl"></i>
-                                </a>
-                                <a href="https://www.linkedin.com/in/milton-gutierrez-rodriguez-27501639b" 
-                                   target="_blank"
-                                   rel="noopener noreferrer"
-                                   class="social-icon w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 hover:text-white transition-all duration-300 transform hover:-translate-y-2 shadow-md hover:shadow-lg"
-                                   aria-label="LinkedIn">
-                                    <i class="fab fa-linkedin-in text-2xl"></i>
-                                </a>
-                                <a href="https://www.instagram.com/miltongutierrez971/" 
-                                   target="_blank"
-                                   rel="noopener noreferrer"
-                                   class="social-icon w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 hover:text-white transition-all duration-300 transform hover:-translate-y-2 shadow-md hover:shadow-lg"
-                                   aria-label="Instagram">
-                                    <i class="fab fa-instagram text-2xl"></i>
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-8 p-4 bg-white/10 rounded-lg">
-                            <p class="text-sm text-blue-100">
-                                <i class="fas fa-clock mr-2"></i>
-                                Te responderé <span class="font-semibold">lo antes posible</span>
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <!-- Formulario -->
-                    <div class="md:w-3/5 p-6 lg:p-8">
-                        <form id="contact-form" action="https://formsubmit.co/milton.gutierrez.tech@gmail.com" method="POST" class="space-y-6" novalidate>
-                            <!-- Campos ocultos de FormSubmit -->
-                            <input type="hidden" name="_next" value="https://milton-gz.github.io/portafolio/gracias.html">
-                            <input type="hidden" name="_captcha" value="false">
-                            <input type="hidden" name="_template" value="table">
-                            <input type="hidden" name="_subject" value="Nuevo contacto desde Portfolio">
-                            <input type="text" name="_honey" style="display:none">
-                            
-                            <!-- Nombre y Email en fila -->
-                            <div class="grid md:grid-cols-2 gap-6">
-                               <div>
-                                    <label for="name" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
-                                        Nombre *
-                                    </label>
-                                    <input type="text" id="name" name="name" 
-                                           class="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg 
-                                                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                                                  bg-white dark:bg-gray-800 transition duration-300
-                                                  placeholder:text-gray-400 dark:placeholder:text-gray-500"
-                                           placeholder="Tu nombre o cómo quieres que te llame">
-                                    <div id="name-error" class="form-error hidden"></div>
-                                </div>
-                                
-                                <div>
-                                    <label for="email" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
-                                        Email *
-                                    </label>
-                                    <input type="email" id="email" name="email"
-                                           class="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg 
-                                                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                                                  bg-white dark:bg-gray-800 transition duration-300
-                                                  placeholder:text-gray-400 dark:placeholder:text-gray-500"
-                                           placeholder="Ej: juan@ejemplo.com">
-                                    <div id="email-error" class="form-error hidden"></div>
-                                </div>
-                            </div>
-                            
-                            <!-- Asunto -->
-                            <div>
-                                <label for="subject" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
-                                    Asunto *
-                                </label>
-                                <input type="text" id="subject" name="subject"
-                                       class="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg 
-                                              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                                              bg-white dark:bg-gray-800 transition duration-300
-                                              placeholder:text-gray-400 dark:placeholder:text-gray-500"
-                                       placeholder="Ej: Consulta sobre desarrollo web">
-                                <div id="subject-error" class="form-error hidden"></div>
-                            </div>
-                            
-                            <!-- Mensaje -->
-                            <div>
-                                <label for="message" class="block text-gray-700 dark:text-gray-300 mb-2 font-medium">
-                                    Mensaje *
-                                </label>
-                                <textarea id="message" name="message" rows="5"
-                                          class="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg 
-                                                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                                                 bg-white dark:bg-gray-800 transition duration-300
-                                                 placeholder:text-gray-400 dark:placeholder:text-gray-500 resize-none"
-                                          placeholder="Hola Milton, me gustaría consultarte sobre..."></textarea>
-                                <div id="message-error" class="form-error hidden"></div>
-                            </div>
-                            
-                            <!-- Botón de envío -->
-                            <button type="submit" id="submit-btn" 
-                                    class="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 
-                                           text-white font-semibold rounded-lg hover:shadow-lg 
-                                           transition-all duration-300 transform hover:-translate-y-0.5
-                                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                                           disabled:opacity-50 disabled:cursor-not-allowed
-                                           flex items-center justify-center">
-                                <i class="fas fa-paper-plane mr-2"></i> Enviar Mensaje
-                            </button>
-                            
-                            <!-- Mensaje de estado -->
-                            <div id="form-status" class="form-status hidden"></div>
-                            
-                            <!-- Nota de privacidad -->
-                            <p class="text-xs text-gray-500 dark:text-gray-400 text-center pt-4">
-                                <i class="fas fa-lock mr-1"></i>
-                                Tus datos están seguros. No compartiré tu información con terceros.
-                            </p>
-                        </form>
-                    </div>
-                </div>
-            </div>
+    <section id="contacto" class="section">
+      <div class="wrap two">
+        <div>
+          <h2>¿Construimos algo juntos?</h2>
+          <p>Estoy abierto a proyectos, oportunidades de aprendizaje y colaboraciones. Cuéntame qué tienes en mente y te respondo en cuanto pueda.</p>
+          <ul class="channels">
+            <li><span>WhatsApp</span><a href="https://wa.me/50379940919?text=Hola%20Milton%2C%20vi%20tu%20portafolio" target="_blank" rel="noopener noreferrer">+503 7994 0919</a></li>
+            <li><span>Instagram</span><a href="https://www.instagram.com/milton_rtz/" target="_blank" rel="noopener noreferrer">@milton_rtz</a></li>
+            <li><span>GitHub</span><a href="https://github.com/milton-gz" target="_blank" rel="noopener noreferrer">milton-gz</a></li>
+            <li><span>Correo</span><a href="mailto:milton.gutierrez.tech@gmail.com">milton.gutierrez.tech@gmail.com</a></li>
+          </ul>
         </div>
+        <form class="contact-form" action="https://formsubmit.co/milton.gutierrez.tech@gmail.com" method="POST" data-contact-form>
+          <input type="hidden" name="_next" value="gracias.html">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_subject" value="Nuevo mensaje desde el portafolio de Milton">
+          <div class="form-honeypot" aria-hidden="true"><label for="website">Deja este campo vacío</label><input id="website" type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+          <div class="row">
+            <div class="form-field"><label for="name">Nombre</label><input id="name" name="name" type="text" autocomplete="name" placeholder="Tu nombre" required minlength="2" maxlength="100"></div>
+            <div class="form-field"><label for="email">Correo electrónico</label><input id="email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" required maxlength="254"></div>
+          </div>
+          <div class="form-field"><label for="subject">Asunto</label><input id="subject" name="subject" type="text" placeholder="¿Sobre qué quieres conversar?" required minlength="3" maxlength="150"></div>
+          <div class="form-field"><label for="message">Mensaje</label><textarea id="message" name="message" rows="5" placeholder="Escribe tu mensaje" required minlength="10" maxlength="3000"></textarea></div>
+          <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+          <div class="form-foot">
+            <button class="button button-primary" type="submit">Enviar mensaje</button>
+            <p class="note">Uso tus datos solo para responderte. No se comparten con terceros.</p>
+          </div>
+        </form>
+      </div>
     </section>
+  </main>
 
-    <!-- Footer -->
-    <footer class="bg-card py-8 border-t border-border transition-all duration-300 mt-12">
-        <div class="container mx-auto px-4 sm:px-6 text-center">
-            <p class="text-gray-600 dark:text-gray-400">&copy; 2025 Milton Gutiérrez. Todos los derechos reservados.</p>
-            <p class="mt-2 text-gray-500 dark:text-gray-400">Estudiante de Ing. en Sistemas</p>
-        </div>
-    </footer>
-
-    <!-- JavaScript para animación de tecnologías -->
-    <script>
-    // Animación de tecnologías rotando
-    document.addEventListener('DOMContentLoaded', function() {
-        const techContainer = document.getElementById('tech-icons-container');
-        
-        if (techContainer) {
-            // Tecnologías a mostrar
-            const technologies = [
-                { icon: 'fab fa-html5', name: 'HTML5' },
-                { icon: 'fab fa-css3-alt', name: 'CSS3' },
-                { icon: 'fab fa-php', name: 'PHP' },
-                { icon: 'fas fa-database', name: 'MySQL' },
-                { icon: 'fab fa-js-square', name: 'JavaScript' },
-                { icon: 'fab fa-python', name: 'Python' },
-                { icon: 'fas fa-paint-brush', name: 'Tailwind' }
-            ];
-            
-            // Crear elementos de iconos
-            technologies.forEach((tech, index) => {
-                const iconElement = document.createElement('i');
-                iconElement.className = `tech-icon ${tech.icon}`;
-                iconElement.style.transitionDelay = `${index * 0.1}s`;
-                iconElement.setAttribute('title', tech.name);
-                techContainer.appendChild(iconElement);
-            });
-            
-            // Animar los iconos
-            let currentIndex = 0;
-            const techIcons = techContainer.querySelectorAll('.tech-icon');
-            
-            function showNextTech() {
-                // Ocultar todos los iconos
-                techIcons.forEach(icon => {
-                    icon.classList.remove('active');
-                });
-                
-                // Mostrar el siguiente icono
-                techIcons[currentIndex].classList.add('active');
-                
-                // Incrementar índice
-                currentIndex = (currentIndex + 1) % techIcons.length;
-            }
-            
-            // Mostrar primer icono inmediatamente
-            setTimeout(() => {
-                showNextTech();
-            }, 500);
-            
-            // Cambiar iconos cada 3 segundos
-            setInterval(showNextTech, 3000);
-        }
-        
-        // Scroll suave para enlaces internos
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    const headerHeight = document.querySelector('.header-glass').offsetHeight;
-                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    });
-    </script>
-
-    <!-- JavaScript -->
-    <script src="js/theme.js"></script>
-    <script src="js/skills.js"></script>
-    <script src="js/projects.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/form.js"></script>
-    
+  <footer class="site-footer">
+    <div class="wrap foot-grid">
+      <div><a class="brand" href="#inicio">miltong<span>.</span></a><p>Estudiante de Ingeniería en Sistemas construyendo sistemas web útiles desde El Salvador.</p></div>
+      <nav aria-label="Pie de página"><h2>Secciones</h2><a href="#sobre-mi">Sobre mí</a><a href="#aplicado">Lo aplicado</a><a href="#habilidades">Habilidades</a><a href="#contacto">Contacto</a></nav>
+      <div><h2>Encuéntrame</h2><a href="https://github.com/milton-gz" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://www.instagram.com/milton_rtz/" target="_blank" rel="noopener noreferrer">Instagram</a><a href="https://wa.me/50379940919?text=Hola%20Milton%2C%20vi%20tu%20portafolio" target="_blank" rel="noopener noreferrer">WhatsApp</a><a href="mailto:milton.gutierrez.tech@gmail.com">Correo</a></div>
+    </div>
+    <div class="wrap foot-base"><p>© 2026 Milton Gutiérrez</p><a href="#inicio">Volver arriba ↑</a></div>
+  </footer>
 </body>
 </html>
