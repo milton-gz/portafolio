@@ -1,238 +1,98 @@
-// Theme System with 6 Color Schemes
-const themeToggle = document.getElementById('theme-toggle');
-const themeToggleMobile = document.getElementById('theme-toggle-mobile');
-const themeIcon = document.getElementById('theme-icon');
-const themeIconMobile = document.getElementById('theme-icon-mobile');
+/* Lógica de cambio de tema */
+(() => {
+  const themeClasses = ["theme-graphite", "theme-oled", "theme-paper", "theme-nature"];
+  const storageKey = "miltong-theme";
+  const body = document.body;
+  const selector = document.querySelector("#theme-select");
+  const toggle = document.querySelector(".theme-toggle");
 
-// Color schemes array (6 paletas)
-const colorSchemes = ['blue', 'green', 'purple', 'amber', 'neon', 'cyan'];
+  const applyTheme = (theme, persist = true) => {
+    const selectedTheme = themeClasses.includes(theme) ? theme : "theme-graphite";
+    body.classList.remove(...themeClasses);
+    body.classList.add(selectedTheme);
 
-// Font imports for each theme
-const themeFonts = {
-    'blue': {
-        heading: 'Inter',
-        body: 'Inter'
-    },
-    'green': {
-        heading: 'Montserrat',
-        body: 'Open Sans'
-    },
-    'purple': {
-        heading: 'Playfair Display',
-        body: 'Raleway'
-    },
-    'amber': {
-        heading: 'Poppins',
-        body: 'Nunito'
-    },
-    'neon': {
-        heading: 'Orbitron',
-        body: 'Exo 2'
-    },
-    'cyan': {
-        heading: 'Ubuntu',
-        body: 'Roboto'
+    if (selector) selector.value = selectedTheme;
+    if (persist) localStorage.setItem(storageKey, selectedTheme);
+  };
+
+  let savedTheme = "theme-graphite";
+  try {
+    const storedTheme = localStorage.getItem(storageKey);
+    if (storedTheme && themeClasses.includes(storedTheme)) savedTheme = storedTheme;
+  } catch (error) {
+    console.warn("No se pudo leer la preferencia de tema.", error);
+  }
+  applyTheme(savedTheme, false);
+
+  selector?.addEventListener("change", () => {
+    try {
+      applyTheme(selector.value);
+    } catch (error) {
+      console.error("No se pudo guardar la preferencia de tema.", error);
+      applyTheme(selector.value, false);
     }
-};
+  });
 
-// Load fonts dynamically
-function loadThemeFonts(scheme) {
-    const fonts = themeFonts[scheme];
-    
-    // You would need to add these to your HTML or use @import
-    // For now, we'll just update CSS variables
-    document.documentElement.style.setProperty('--font-heading', fonts.heading);
-    document.documentElement.style.setProperty('--font-body', fonts.body);
-}
+  toggle?.addEventListener("click", () => {
+    const currentTheme = themeClasses.find((theme) => body.classList.contains(theme)) || "theme-graphite";
+    const nextTheme = {
+      "theme-graphite": "theme-paper",
+      "theme-oled": "theme-nature",
+      "theme-paper": "theme-graphite",
+      "theme-nature": "theme-oled"
+    }[currentTheme];
 
-// Initialize theme from localStorage or system preference
-function initializeTheme() {
-    // Theme mode (dark/light)
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const savedTheme = localStorage.getItem('theme');
-    
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-        document.body.classList.add('dark-mode');
-        updateThemeIcons(true);
-    } else {
-        document.body.classList.remove('dark-mode');
-        updateThemeIcons(false);
+    try {
+      applyTheme(nextTheme);
+    } catch (error) {
+      console.error("No se pudo guardar la preferencia de tema.", error);
+      applyTheme(nextTheme, false);
     }
-    
-    // Color scheme
-    const savedColorScheme = localStorage.getItem('color-scheme') || 'blue';
-    applyColorScheme(savedColorScheme);
-    
-    // Update color options UI
-    updateColorOptions();
-}
+  });
 
-// Toggle dark/light mode
-function toggleTheme() {
-    const isDarkMode = document.body.classList.toggle('dark-mode');
-    
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-    updateThemeIcons(isDarkMode);
-    updateColorOptions();
-    
-    // Apply theme-specific styles
-    const currentScheme = localStorage.getItem('color-scheme') || 'blue';
-    applyColorScheme(currentScheme);
-}
+  /* Lógica del menú móvil */
+  const menuToggle = document.querySelector(".menu-toggle");
+  const navigation = document.querySelector("#primary-navigation");
 
-// Update theme icons
-function updateThemeIcons(isDark) {
-    if (isDark) {
-        themeIcon?.classList.replace('fa-moon', 'fa-sun');
-        themeIconMobile?.classList.replace('fa-moon', 'fa-sun');
-    } else {
-        themeIcon?.classList.replace('fa-sun', 'fa-moon');
-        themeIconMobile?.classList.replace('fa-sun', 'fa-moon');
-    }
-}
+  menuToggle?.addEventListener("click", () => {
+    const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+    menuToggle.setAttribute("aria-expanded", String(!isOpen));
+    menuToggle.setAttribute("aria-label", isOpen ? "Abrir menú" : "Cerrar menú");
+    navigation?.classList.toggle("is-open", !isOpen);
+  });
 
-// Apply color scheme
-function applyColorScheme(scheme) {
-    // Validate scheme
-    if (!colorSchemes.includes(scheme)) {
-        scheme = 'blue';
-    }
-    
-    // Remove all color scheme classes
-    colorSchemes.forEach(s => {
-        document.body.classList.remove(`color-scheme-${s}`);
+  navigation?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      navigation.classList.remove("is-open");
+      menuToggle?.setAttribute("aria-expanded", "false");
+      menuToggle?.setAttribute("aria-label", "Abrir menú");
     });
-    
-    // Add the selected scheme
-    document.body.classList.add(`color-scheme-${scheme}`);
-    
-    // Load theme fonts
-    loadThemeFonts(scheme);
-    
-    // Update active state in UI
-    const colorOptions = document.querySelectorAll('.color-option, .color-dot-glass');
-    colorOptions.forEach(option => {
-        option.classList.remove('active');
-        if (option.getAttribute('data-scheme') === scheme) {
-            option.classList.add('active');
-        }
+  });
+
+  /* Lógica de filtros de proyectos */
+  const filterButtons = document.querySelectorAll("[data-filter]");
+  const projectCards = document.querySelectorAll("[data-categories]");
+  const emptyMessage = document.querySelector("[data-projects-empty]");
+
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const selectedFilter = button.dataset.filter;
+      let visibleCount = 0;
+
+      filterButtons.forEach((filterButton) => {
+        const isActive = filterButton === button;
+        filterButton.classList.toggle("is-active", isActive);
+        filterButton.setAttribute("aria-pressed", String(isActive));
+      });
+
+      projectCards.forEach((card) => {
+        const categories = (card.dataset.categories || "").split(/\s+/);
+        const isVisible = selectedFilter === "all" || categories.includes(selectedFilter);
+        card.hidden = !isVisible;
+        if (isVisible) visibleCount += 1;
+      });
+
+      if (emptyMessage) emptyMessage.hidden = visibleCount > 0;
     });
-    
-    // Save to localStorage
-    localStorage.setItem('color-scheme', scheme);
-    
-    // Dispatch custom event for other components
-    document.dispatchEvent(new CustomEvent('colorschemechange', { 
-        detail: { scheme } 
-    }));
-    
-    // Add animation effect
-    document.body.classList.add('theme-transition');
-    setTimeout(() => {
-        document.body.classList.remove('theme-transition');
-    }, 1000);
-}
-
-// Update color options based on current theme
-function updateColorOptions() {
-    const colorOptions = document.querySelectorAll('.color-option, .color-dot-glass');
-    const isDarkMode = document.body.classList.contains('dark-mode');
-    
-    colorOptions.forEach(option => {
-        const scheme = option.getAttribute('data-scheme');
-        if (option.classList.contains('active')) {
-            option.style.borderColor = isDarkMode ? '#e2e8f0' : '#1e293b';
-        }
-        
-        // Update option colors based on scheme
-        switch(scheme) {
-            case 'blue':
-                option.style.backgroundColor = '#4f46e5';
-                break;
-            case 'green':
-                option.style.backgroundColor = '#059669';
-                break;
-            case 'purple':
-                option.style.backgroundColor = '#7c3aed';
-                break;
-            case 'amber':
-                option.style.backgroundColor = '#d97706';
-                break;
-            case 'neon':
-                option.style.backgroundColor = '#db2777';
-                break;
-            case 'cyan':
-                option.style.backgroundColor = '#0891b2';
-                break;
-        }
-    });
-}
-
-// Color Scheme Changer
-function setupColorSchemeButtons() {
-    const colorOptions = document.querySelectorAll('.color-option, .color-dot-glass');
-    
-    colorOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            const scheme = this.getAttribute('data-scheme');
-            if (colorSchemes.includes(scheme)) {
-                applyColorScheme(scheme);
-                
-                // Add click animation
-                this.style.transform = 'scale(0.8)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1.2)';
-                }, 150);
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 300);
-            }
-        });
-        
-        // Add tooltip
-        const scheme = option.getAttribute('data-scheme');
-        const schemeNames = {
-            'blue': 'Azul Profesional',
-            'green': 'Verde Natural',
-            'purple': 'Púrpura Creativo',
-            'amber': 'Ámbar Energético',
-            'neon': 'Rosa Neón',
-            'cyan': 'Cian Profundo'
-        };
-        option.setAttribute('title', schemeNames[scheme]);
-    });
-}
-
-// Listen for system theme changes
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (!localStorage.getItem('theme')) {
-        initializeTheme();
-    }
-});
-
-// Initialize everything
-function initThemeSystem() {
-    initializeTheme();
-    setupColorSchemeButtons();
-    
-    // Event listeners for theme toggles
-    themeToggle?.addEventListener('click', toggleTheme);
-    themeToggleMobile?.addEventListener('click', toggleTheme);
-}
-
-// Export for module usage
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        initThemeSystem,
-        toggleTheme,
-        applyColorScheme,
-        colorSchemes
-    };
-}
-
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initThemeSystem);
-} else {
-    initThemeSystem();
-}
+  });
+})();
