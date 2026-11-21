@@ -151,11 +151,11 @@
             <li><span>Correo</span><a href="mailto:gutierrezrodriguezmiltonalexis@gmail.com">gutierrezrodriguezmiltonalexis@gmail.com</a></li>
           </ul>
         </div>
-        <form class="contact-form" action="https://formsubmit.co/gutierrezrodriguezmiltonalexis@gmail.com" method="POST" data-contact-form>
-          <input type="hidden" name="_next" value="gracias.html">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_subject" value="Nuevo mensaje desde el portafolio de Milton">
-          <div class="form-honeypot" aria-hidden="true"><label for="website">Deja este campo vacío</label><input id="website" type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+        <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" data-contact-form>
+          <input type="hidden" name="access_key" value="67f3d21d-dc38-456c-b3f4-cc9376a6a3fa">
+          <input type="hidden" name="from_name" value="Portafolio de Milton">
+          <input type="hidden" name="redirect" value="">
+          <div class="form-honeypot" aria-hidden="true"><label for="botcheck">No marcar esta casilla</label><input id="botcheck" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></div>
           <div class="row">
             <div class="form-field"><label for="name">Nombre</label><input id="name" name="name" type="text" autocomplete="name" placeholder="Tu nombre" required minlength="2" maxlength="100"></div>
             <div class="form-field"><label for="email">Correo electrónico</label><input id="email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" required maxlength="254"></div>
