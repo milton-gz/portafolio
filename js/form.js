@@ -1,32 +1,53 @@
-/* Validación y envío del formulario de contacto (Web3Forms) */
+/* Validación y envío del formulario de contacto (Web3Forms por AJAX) */
 (() => {
   const form = document.querySelector("[data-contact-form]");
   if (!form) return;
 
   const status = form.querySelector("[data-form-status]");
-  const redirect = form.querySelector('input[name="redirect"]');
+  const button = form.querySelector('[type="submit"]');
+  const label = button ? button.textContent : "";
 
-  // Web3Forms necesita una URL absoluta para volver a la página de gracias.
-  if (redirect) redirect.value = new URL("gracias.html", window.location.href).href;
+  const setStatus = (text) => { if (status) status.textContent = text; };
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
     if (!form.checkValidity()) {
-      event.preventDefault();
       form.reportValidity();
-      if (status) status.textContent = "Revisa los campos obligatorios antes de enviar.";
+      setStatus("Revisa los campos obligatorios antes de enviar.");
       return;
     }
 
+    // Casilla oculta anti-spam: las personas no la ven, los bots la marcan.
     if (form.querySelector('input[name="botcheck"]')?.checked) {
-      event.preventDefault();
-      if (status) status.textContent = "No se pudo procesar el envío. Inténtalo de nuevo.";
+      setStatus("No se pudo procesar el envío. Inténtalo de nuevo.");
       return;
     }
 
-    if (status) status.textContent = "Enviando tu mensaje…";
+    const data = new FormData(form);
+    data.delete("redirect");
+
+    if (button) { button.disabled = true; button.textContent = "Enviando…"; }
+    setStatus("Enviando tu mensaje…");
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: data
+      });
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        window.location.href = "gracias.html";
+        return;
+      }
+      throw new Error(result.message || "Error de envío");
+    } catch (error) {
+      setStatus("No se pudo enviar tu mensaje. Revisa tu conexión e inténtalo de nuevo.");
+      if (button) { button.disabled = false; button.textContent = label; }
+    }
   });
 
-  form.addEventListener("input", () => {
-    if (status) status.textContent = "";
-  });
+  form.addEventListener("input", () => setStatus(""));
 })();
