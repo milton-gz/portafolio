@@ -1,14 +1,13 @@
-/* Validación del formulario de contacto */
+/* Validación y envío del formulario de contacto (Web3Forms) */
 (() => {
   const form = document.querySelector("[data-contact-form]");
   if (!form) return;
 
   const status = form.querySelector("[data-form-status]");
-  const nextField = form.querySelector('input[name="_next"]');
+  const redirect = form.querySelector('input[name="redirect"]');
 
-  if (nextField) {
-    nextField.value = new URL("gracias.html", window.location.href).href;
-  }
+  // Web3Forms necesita una URL absoluta para volver a la página de gracias.
+  if (redirect) redirect.value = new URL("gracias.html", window.location.href).href;
 
   form.addEventListener("submit", (event) => {
     if (!form.checkValidity()) {
@@ -18,8 +17,7 @@
       return;
     }
 
-    const honeypot = form.querySelector('input[name="_honey"]');
-    if (honeypot?.value.trim()) {
+    if (form.querySelector('input[name="botcheck"]')?.checked) {
       event.preventDefault();
       if (status) status.textContent = "No se pudo procesar el envío. Inténtalo de nuevo.";
       return;
